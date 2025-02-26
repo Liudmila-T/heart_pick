@@ -1,0 +1,4 @@
+enum QLocalizationsKeys {
+  start,
+  loading,
+}
