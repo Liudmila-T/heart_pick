@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:heart_pick/platform/localization/app_localizations.dart';
 import 'package:heart_pick/platform/localization/app_localizations_delegate.dart';
+import 'package:heart_pick/presentation/bloc/game_bloc.dart';
 import 'package:heart_pick/presentation/routes.dart';
 import 'package:heart_pick/presentation/utils/colors.dart';
 
@@ -20,6 +22,7 @@ Future<void> _setUp() async {
   locator.registerSingleton<NetworkClient>(NetworkClient());
   locator.registerSingleton<RestApi>(RestApiImpl(networkClient: locator.get<NetworkClient>()));
   locator.registerSingleton<AppRepository>(AppRepositoryImpl(restApi: locator.get<RestApi>()));
+  locator.registerLazySingleton<GameBloc>(() => GameBloc(repository: locator.get<AppRepository>()));
 }
 
 void main() async {
@@ -27,7 +30,15 @@ void main() async {
     () async {
       await _setUp();
 
-      runApp(const MyApp());
+      runApp(
+        BlocProvider.value(
+          value: locator<GameBloc>()
+            ..add(
+              const GameEvent.loadProducts(),
+            ),
+          child: const MyApp(),
+        ),
+      );
     },
     (dynamic object, StackTrace stackTrace) {},
   );

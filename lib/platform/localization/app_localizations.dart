@@ -35,4 +35,6 @@ class AppLocalizations {
   String get or => localizedValues[locale.languageCode]![QLocalizationsKeys.or]!;
 
   String get close => localizedValues[locale.languageCode]![QLocalizationsKeys.close]!;
+
+  String get somethingWentWrong => localizedValues[locale.languageCode]![QLocalizationsKeys.somethingWentWrong]!;
 }

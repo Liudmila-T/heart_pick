@@ -10,4 +10,5 @@ const localizedValuesUk = {
   QLocalizationsKeys.next: "Далі",
   QLocalizationsKeys.or: "або",
   QLocalizationsKeys.close: "x",
+  QLocalizationsKeys.somethingWentWrong: "Щось пішло не так.. Спробуй пізніше",
 };

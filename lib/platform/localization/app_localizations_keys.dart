@@ -8,4 +8,5 @@ enum QLocalizationsKeys {
   next,
   or,
   close,
+  somethingWentWrong,
 }

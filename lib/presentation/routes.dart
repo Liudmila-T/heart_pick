@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heart_pick/presentation/pages/finish_game_page.dart';
-import 'package:heart_pick/presentation/pages/main_game_page/main_game_page.dart';
+import 'package:heart_pick/presentation/pages/main_game_page.dart';
 import 'package:heart_pick/presentation/pages/start_game_page.dart';
 
 class Routes {
