@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:heart_pick/data/models/requests/result_game_request.dart';
 import 'package:heart_pick/domain/repositories/app_repository.dart';
 
+import '../../data/datasourse/local/hive_database.dart';
 import '../../domain/entities/product.dart';
 
 part 'game_bloc.freezed.dart';
@@ -45,7 +46,9 @@ class GameState with _$GameState {
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc({
     required AppRepository repository,
+    required HiveService hiveService,
   })  : _repository = repository,
+        _hiveService = hiveService,
         super(const GameState.initial()) {
     on<GameEvent>(
       (event, emit) => emit.forEach<GameState>(_mapEventToState(event), onData: (e) => e),
@@ -53,6 +56,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   final AppRepository _repository;
+  final HiveService _hiveService;
 
   final List<int> _likesIds = [];
 
@@ -67,13 +71,18 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     final s = state;
     if (s is InitialGameState) {
       yield const GameState.loading();
-      final response = await _repository.getProducts();
-      if (response.isRight) {
-        final products = response.right;
-        yield GameState.data(products: products, currentStep: 1, totalStep: products.length);
-      } else {
-        yield const GameState.error();
+      List<List<Product>>? products;
+      products = _hiveService.getProducts();
+      if (products?.isEmpty ?? true) {
+        final response = await _repository.getProducts();
+        if (response.isRight) {
+          products = response.right;
+          _hiveService.updateProducts(products);
+        }
       }
+      yield GameState.data(products: products!, currentStep: 1, totalStep: products.length);
+    } else {
+      yield const GameState.error();
     }
   }
 
@@ -82,6 +91,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     final request = ResultGameRequest(bonus: s.bonus, likeIds: s.likeIds);
     final response = await _repository.sendGameResult(request);
     if (response.isRight && response.right) {
+      _hiveService.clearProducts();
       yield const GameState.initial();
     } else {
       yield const GameState.error();

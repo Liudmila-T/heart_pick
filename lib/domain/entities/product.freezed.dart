@@ -16,8 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Product {
+  @HiveField(0)
   int get productId => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get name => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get photoUrl => throw _privateConstructorUsedError;
 
   /// Create a copy of Product
@@ -31,7 +34,10 @@ abstract class $ProductCopyWith<$Res> {
   factory $ProductCopyWith(Product value, $Res Function(Product) then) =
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
-  $Res call({int productId, String name, String photoUrl});
+  $Res call(
+      {@HiveField(0) int productId,
+      @HiveField(1) String name,
+      @HiveField(2) String photoUrl});
 }
 
 /// @nodoc
@@ -77,7 +83,10 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       __$$ProductImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int productId, String name, String photoUrl});
+  $Res call(
+      {@HiveField(0) int productId,
+      @HiveField(1) String name,
+      @HiveField(2) String photoUrl});
 }
 
 /// @nodoc
@@ -116,16 +125,22 @@ class __$$ProductImplCopyWithImpl<$Res>
 
 /// @nodoc
 
+@HiveType(typeId: HiveAdapterId.product, adapterName: 'HiveProductAdapter')
 class _$ProductImpl extends _Product {
   const _$ProductImpl(
-      {required this.productId, required this.name, required this.photoUrl})
+      {@HiveField(0) required this.productId,
+      @HiveField(1) required this.name,
+      @HiveField(2) required this.photoUrl})
       : super._();
 
   @override
+  @HiveField(0)
   final int productId;
   @override
+  @HiveField(1)
   final String name;
   @override
+  @HiveField(2)
   final String photoUrl;
 
   @override
@@ -159,16 +174,19 @@ class _$ProductImpl extends _Product {
 
 abstract class _Product extends Product {
   const factory _Product(
-      {required final int productId,
-      required final String name,
-      required final String photoUrl}) = _$ProductImpl;
+      {@HiveField(0) required final int productId,
+      @HiveField(1) required final String name,
+      @HiveField(2) required final String photoUrl}) = _$ProductImpl;
   const _Product._() : super._();
 
   @override
+  @HiveField(0)
   int get productId;
   @override
+  @HiveField(1)
   String get name;
   @override
+  @HiveField(2)
   String get photoUrl;
 
   /// Create a copy of Product

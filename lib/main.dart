@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:heart_pick/data/datasourse/local/hive_database.dart';
 import 'package:heart_pick/platform/localization/app_localizations.dart';
 import 'package:heart_pick/platform/localization/app_localizations_delegate.dart';
 import 'package:heart_pick/presentation/bloc/game_bloc.dart';
 import 'package:heart_pick/presentation/routes.dart';
 import 'package:heart_pick/presentation/utils/colors.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'data/datasourse/remote/rest_api.dart';
 import 'data/network_client.dart';
@@ -22,12 +24,20 @@ Future<void> _setUp() async {
   locator.registerSingleton<NetworkClient>(NetworkClient());
   locator.registerSingleton<RestApi>(RestApiImpl(networkClient: locator.get<NetworkClient>()));
   locator.registerSingleton<AppRepository>(AppRepositoryImpl(restApi: locator.get<RestApi>()));
-  locator.registerLazySingleton<GameBloc>(() => GameBloc(repository: locator.get<AppRepository>()));
+  locator.registerSingleton<HiveService>(
+    HiveServiceImpl(),
+    dispose: (h) async => h.compactAndClose(),
+  );
+  await locator.get<HiveService>().initAndRegisterAdapters();
+  await locator.get<HiveService>().openHiveBoxes();
+  locator.registerLazySingleton<GameBloc>(
+      () => GameBloc(repository: locator.get<AppRepository>(), hiveService: locator.get<HiveService>()));
 }
 
 void main() async {
   await runZonedGuarded(
     () async {
+      await Hive.initFlutter();
       await _setUp();
 
       runApp(
