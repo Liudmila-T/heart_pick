@@ -37,6 +37,7 @@ flutter:
     - family: Mariupol-Bold
       fonts:
         - asset: fonts/Mariupol-Bold.ttf
+          weight: 700
 
 
 
