@@ -14,6 +14,7 @@ class TextWidget extends StatelessWidget {
       text,
       overflow: TextOverflow.ellipsis,
       maxLines: 4,
+      textAlign: TextAlign.center,
       style: textStyles.copyWith(
           shadows: withShadow
               ? [
