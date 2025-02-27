@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:heart_pick/data/models/requests/result_game_request.dart';
@@ -89,6 +90,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Stream<GameState> _mapSendGameResultEvent(_SendGameResultEvent event) async* {
     final s = state as DataGameState;
     final request = ResultGameRequest(bonus: s.bonus, likeIds: s.likeIds);
+    debugPrint('bonus ${s.bonus}');
+    debugPrint('product ids:');
+    s.likeIds.forEach((e) => debugPrint('$e'));
     final response = await _repository.sendGameResult(request);
     if (response.isRight && response.right) {
       _hiveService.clearProducts();
