@@ -49,13 +49,16 @@ class StartGamePage extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.09,
                     ),
-                    if (state is LoadingGameState)
-                      Text(
-                        AppLocalizations.of(context).loading,
-                        style: TextStyles.title18.apply(
-                          color: AppColors.lightPurpleText,
-                        ),
-                      ),
+                    state is LoadingGameState
+                        ? Text(
+                            AppLocalizations.of(context).loading,
+                            style: TextStyles.title18.apply(
+                              color: AppColors.lightPurpleText,
+                            ),
+                          )
+                        : const SizedBox(
+                            height: 31.0,
+                          ),
                     const SizedBox(
                       height: 24.0,
                     ),
