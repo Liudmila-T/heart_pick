@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heart_pick/platform/localization/app_localizations.dart';
@@ -21,7 +23,7 @@ class StartGamePage extends StatelessWidget {
     return BackgroundWidget(
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: Platform.isAndroid ? 16.0 : 0.0),
           child: BlocBuilder(
               bloc: locator<GameBloc>(),
               builder: (context, state) {
@@ -29,44 +31,51 @@ class StartGamePage extends StatelessWidget {
                   showErrorSnackBar(context);
                 }
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: ActionButtonWidget(
-                        actionButtonType: ActionButtonType.close,
-                        onTap: () {},
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.1,
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: ActionButtonWidget(
+                            actionButtonType: ActionButtonType.close,
+                            onTap: () {},
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                        ),
+                        Image.asset(
+                          AppIcons.promoIcon,
+                          width: MediaQuery.sizeOf(context).height * 0.8,
+                          height: MediaQuery.sizeOf(context).height * 0.5,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.09,
+                        ),
+                        state is LoadingGameState
+                            ? Text(
+                                AppLocalizations.of(context).loading,
+                                style: TextStyles.title18.apply(
+                                  color: AppColors.lightPurpleText,
+                                ),
+                              )
+                            : const SizedBox(
+                                height: 30.0,
+                              ),
+                        const SizedBox(
+                          height: 24.0,
+                        ),
+                      ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
-                      child: Image.asset(
-                        AppIcons.promoIcon,
+                      padding: const EdgeInsets.only(bottom: 24.0),
+                      child: StartGameButtonWidget(
+                        onTap: () {
+                          if (state is DataGameState) Navigator.of(context).pushNamed(Routes.game);
+                        },
+                        title: AppLocalizations.of(context).start,
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.09,
-                    ),
-                    state is LoadingGameState
-                        ? Text(
-                            AppLocalizations.of(context).loading,
-                            style: TextStyles.title18.apply(
-                              color: AppColors.lightPurpleText,
-                            ),
-                          )
-                        : const SizedBox(
-                            height: 31.0,
-                          ),
-                    const SizedBox(
-                      height: 24.0,
-                    ),
-                    StartGameButtonWidget(
-                      onTap: () {
-                        if (state is DataGameState) Navigator.of(context).pushNamed(Routes.game);
-                      },
-                      title: AppLocalizations.of(context).start,
                     )
                   ],
                 );

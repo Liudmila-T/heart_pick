@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:heart_pick/platform/localization/app_localizations.dart';
 import 'package:heart_pick/presentation/utils/assets.dart';
@@ -22,54 +24,59 @@ class FinishGamePage extends StatelessWidget {
       child: BackgroundWidget(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: Platform.isAndroid ? 16.0 : 0.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    ActionButtonWidget(
-                      actionButtonType: ActionButtonType.close,
-                      onTap: () {},
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ActionButtonWidget(
+                          actionButtonType: ActionButtonType.close,
+                          onTap: () {},
+                        ),
+                        const StepCounterWidget(
+                          currentStep: 10,
+                          totalSteps: 10,
+                          isFinish: true,
+                        )
+                      ],
                     ),
-                    const StepCounterWidget(
-                      currentStep: 10,
-                      totalSteps: 10,
-                      isFinish: true,
-                    )
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.14,
+                    ),
+                    TextWidget(
+                      text: AppLocalizations.of(context).congratulations,
+                      textStyles: TextStyles.title30.apply(color: AppColors.white),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    TextWidget(
+                      text: AppLocalizations.of(context).yourWinnings,
+                      textStyles: TextStyles.title40.apply(color: AppColors.white),
+                    ),
+                    const SizedBox(
+                      height: 36.0,
+                    ),
+                    Image.asset(
+                      AppIcons.winIcon,
+                      width: MediaQuery.sizeOf(context).height * 0.4,
+                      height: MediaQuery.sizeOf(context).height * 0.4,
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.14,
-                ),
-                TextWidget(
-                  text: AppLocalizations.of(context).congratulations,
-                  textStyles: TextStyles.title30.apply(color: AppColors.white),
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                TextWidget(
-                  text: AppLocalizations.of(context).yourWinnings,
-                  textStyles: TextStyles.title40.apply(color: AppColors.white),
-                ),
-                const SizedBox(
-                  height: 36.0,
-                ),
-                Image.asset(
-                  AppIcons.winIcon,
-                  width: 360.0,
-                  height: 360.0,
-                ),
-                const SizedBox(
-                  height: 56.0,
-                ),
-                StartGameButtonWidget(
-                  title: AppLocalizations.of(context).collectBonuses,
-                  withIcon: true,
-                  onTap: () {
-                    locator<GameBloc>().add(const GameEvent.sendGameResult());
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: StartGameButtonWidget(
+                    title: AppLocalizations.of(context).collectBonuses,
+                    withIcon: true,
+                    onTap: () {
+                      locator<GameBloc>().add(const GameEvent.sendGameResult());
+                    },
+                  ),
                 )
               ],
             ),

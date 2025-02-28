@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heart_pick/platform/localization/app_localizations.dart';
@@ -33,7 +35,7 @@ class _MainGamePageState extends State<MainGamePage> {
       child: BackgroundWidget(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: Platform.isAndroid ? 16.0 : 0.0),
             child: BlocBuilder(
                 bloc: _gameBloc,
                 builder: (context, state) {
@@ -125,7 +127,7 @@ class _MainGamePageState extends State<MainGamePage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 56.0),
+                          padding: const EdgeInsets.only(bottom: 24.0),
                           child: ActionButtonWidget(
                             actionButtonType: ActionButtonType.nextStep,
                             onTap: () {

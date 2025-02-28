@@ -27,7 +27,7 @@ class ActionButtonWidget extends StatelessWidget {
         height: _height,
         padding: EdgeInsets.symmetric(
           horizontal: _horizontalPadding,
-          vertical: 8.0,
+          vertical: 10.0,
         ),
         decoration: BoxDecoration(
             border: Border.all(color: AppColors.white, width: 3.0),

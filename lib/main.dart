@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,9 @@ void main() async {
     () async {
       await Hive.initFlutter();
       await _setUp();
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.purpleBackground,
+      ));
 
       runApp(
         BlocProvider.value(
